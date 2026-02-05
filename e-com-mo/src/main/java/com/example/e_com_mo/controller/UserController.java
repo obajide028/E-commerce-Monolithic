@@ -1,5 +1,7 @@
-package com.example.e_com_mo;
+package com.example.e_com_mo.controller;
 
+import com.example.e_com_mo.model.User;
+import com.example.e_com_mo.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

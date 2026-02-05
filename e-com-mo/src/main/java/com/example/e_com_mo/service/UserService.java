@@ -1,7 +1,8 @@
-package com.example.e_com_mo;
+package com.example.e_com_mo.service;
 
+import com.example.e_com_mo.repository.UserRepository;
+import com.example.e_com_mo.model.User;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
