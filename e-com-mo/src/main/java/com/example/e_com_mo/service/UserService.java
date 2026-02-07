@@ -27,22 +27,43 @@ public class UserService {
     }
 
     public void addUser(UserRequest userRequest){
-       userRepository.save(userRequest); // fix this code
+
+        User user = new User();
+        updateUserFromRequest(user, userRequest);
+        userRepository.save(user); // fix this code
     }
+
+
 
     public Optional<UserResponse> fetchUser(Long id) {
         return userRepository.findById(id)
                 .map(this::mapToUserResponse);
     }
 
-    public boolean updateUser(Long id, User updateUser) {
+    public boolean updateUser(Long id, UserRequest updateUserRequest) {
         return userRepository.findById(id)
                 .map(existingUser -> {
-                    existingUser.setFirstName(updateUser.getFirstName());
-                    existingUser.setLastName(updateUser.getLastName());
+                    updateUserFromRequest(existingUser, updateUserRequest);
                     userRepository.save(existingUser);
                     return  true;
                 }).orElse(false);
+    }
+
+    private void updateUserFromRequest(User user, UserRequest userRequest) {
+
+        user.setLastName(userRequest.getLastName());
+        user.setFirstName(userRequest.getFirstName());
+        user.setEmail(userRequest.getEmail());
+        user.setPhone(userRequest.getPhone());
+        if(userRequest.getAddress() != null){
+            Address address = new Address();
+            address.setCity(userRequest.getAddress().getCity());
+            address.setState(userRequest.getAddress().getState());
+            address.setStreet(userRequest.getAddress().getStreet());
+            address.setZipcode(userRequest.getAddress().getZipcode());
+            address.setCountry(userRequest.getAddress().getCountry());
+            user.setAddress(address);
+        }
     }
 
     private UserResponse mapToUserResponse(User user){
@@ -52,6 +73,7 @@ public class UserService {
         response.setLastName(user.getLastName());
         response.setEmail(user.getEmail());
         response.setPhone(user.getPhone());
+        response.setRole(user.getRole());
 
         if (user.getAddress() != null){
             AddressDto addressDto = new AddressDto();
@@ -61,6 +83,8 @@ public class UserService {
             addressDto.setState(user.getAddress().getState());
             addressDto.setCountry(user.getAddress().getCountry());
             addressDto.setZipcode(user.getAddress().getZipcode() );
+
+            response.setAddress(addressDto);
         }
         return response;
     }

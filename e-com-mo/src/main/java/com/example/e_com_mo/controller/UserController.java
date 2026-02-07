@@ -1,7 +1,7 @@
 package com.example.e_com_mo.controller;
 
+import com.example.e_com_mo.dto.UserRequest;
 import com.example.e_com_mo.dto.UserResponse;
-import com.example.e_com_mo.model.User;
 import com.example.e_com_mo.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -12,7 +12,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/users")
+@RequestMapping("api/users")
 public class UserController {
 
 private final UserService userService;
@@ -33,16 +33,16 @@ private final UserService userService;
     }
 
     @PostMapping
-    private ResponseEntity<String> createUser(@RequestBody User user) {
-        userService.addUser(user);
+    private ResponseEntity<String> createUser(@RequestBody UserRequest userRequest) {
+        userService.addUser(userRequest);
 
         return ResponseEntity.ok("User added successfully");
     }
 
     @PutMapping("/{id}")
-    private ResponseEntity<String> updateUser(@PathVariable Long id, @RequestBody User updatedUser) {
+    private ResponseEntity<String> updateUser(@PathVariable Long id, @RequestBody UserRequest updatedUserRequest) {
 
-        boolean updated = userService.updateUser(id, updatedUser);
+        boolean updated = userService.updateUser(id, updatedUserRequest);
         if (updated)
             return ResponseEntity.ok("User added successfully");
         return ResponseEntity.notFound().build();
