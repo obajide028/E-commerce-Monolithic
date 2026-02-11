@@ -52,6 +52,8 @@ public class ProductController {
     public ResponseEntity<Void> searchProduct(@PathVariable Long id) {
         boolean deleted = productService.deleteProduct(id);
         return deleted ? ResponseEntity.noContent().build() : ResponseEntity.notFound().build();
+
+        //complete
     }
 
 }
