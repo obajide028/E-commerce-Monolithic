@@ -76,8 +76,11 @@ public class CartService {
         return  false;
     }
 
-//    public List<CartItem> getCart(String userId) {
-//
-//
-//    }
+    public List<CartItem> getCart(String userId) {
+
+        return userRepository.findById(Long.valueOf(userId))
+                .map(cartItemRepository::findByUser)
+                .orElseGet(List::of);
+
+    }
 }
